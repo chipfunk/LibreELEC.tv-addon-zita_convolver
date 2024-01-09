@@ -19,20 +19,17 @@ PKG_TOOLCHAIN="make" # or one of auto, meson, cmake, cmake-make, configure, make
 PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="zita convolver"
 PKG_ADDON_TYPE="xbmc.service"
+PKG_ADDON_VERSION="0.1.0"
 
 pre_make_target() {
   mv ${PKG_BUILD}/source/* ${PKG_BUILD}
 }
 
-post_make_target() {
-  cd ${PKG_BUILD}/
-  ln -sf libzita-convolver.so.${PKG_VERSION} libzita-convolver.so
-}
-
 addon() {
-  mkdir -p ${ADDON_BUILD}/${PKG_ADDON_ID}/usr/lib
-  cp ${PKG_BUILD}/libzita-convolver.so* ${ADDON_BUILD}/${PKG_ADDON_ID}/usr/lib
+  mkdir -p ${ADDON_BUILD}/${PKG_ADDON_ID}/lib
+  cp ${PKG_BUILD}/libzita-convolver.so* ${ADDON_BUILD}/${PKG_ADDON_ID}/lib
 
-  mkdir -p ${ADDON_BUILD}/${PKG_ADDON_ID}/usr/include
-  cp ${PKG_BUILD}/zita-convolver.h ${ADDON_BUILD}/${PKG_ADDON_ID}/usr/include
+  cd ${ADDON_BUILD}/${PKG_ADDON_ID}/lib
+  ln -sf libzita-convolver.so.${PKG_VERSION} libzita-convolver.so.4
+  ln -sf libzita-convolver.so.${PKG_VERSION} libzita-convolver.so
 }
